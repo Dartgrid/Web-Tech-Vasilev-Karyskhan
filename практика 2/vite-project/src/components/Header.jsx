@@ -13,7 +13,7 @@ class Header extends PureComponent {
                         <nav>
                             <ul className="font-semibold flex gap-[35px]">
                                 <li>
-                                    <a href="/home">Главная</a>
+                                    <a href="/">Главная</a>
                                 </li>
                                 <li>
                                     <a href="/about">О нас</a>

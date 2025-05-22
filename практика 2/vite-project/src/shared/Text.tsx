@@ -1,5 +1,5 @@
 const Text = (props) => {
-  const { size = "medium", color = "primary", children, as = "span", className = "" } = props;
+  const { size = "medium", color = "primary", children, className = "" } = props;
 
   const classes = {
     colors: {
@@ -16,12 +16,11 @@ const Text = (props) => {
     },
   };
 
-  const Tag = as;
 
   return (
-    <div className={`${classes.sizes[size]} ${classes.colors[color]} ${className}`}>
+    <span className={`${classes.sizes[size]} ${classes.colors[color]} ${className}`}>
       {children}
-    </div>
+    </span>
   );
 };
 

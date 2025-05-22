@@ -1,36 +1,64 @@
-const Button = (props) => {
-  const { size, color, title } = props;
-  // класс по умолчанию
+import React from "react";
+
+export const Button = (props) => {
+  const {
+    size = "medium",
+    color = "blue",
+    title,
+    onClick,
+    type = "button",
+    className = "",
+    children, 
+    ...rest
+  } = props;
+
   const defaultClass =
-    "flex items-center rounded-2 h-[40px] w-[max-content] px-4 py-2";
+    "flex items-center justify-center rounded-2 h-[40px] w-[max-content] px-4 py-2 transition duration-150 cursor-pointer select-none";
 
   const classes = {
     colors: {
-      primary: {
-        button: "bg-amber-700",
-        text: "text-red",
+      blue: {
+        button: "bg-blue-600 hover:bg-blue-700",
+        text: "text-white",
       },
       secondary: {
-        button: "bg-red-500",
+        button: "bg-red-500 hover:bg-red-600",
+        text: "text-white",
+      },
+      gray: {
+        button: "bg-gray-300 hover:bg-gray-400",
+        text: "text-gray-800",
+      },
+      amber: {
+        button: "bg-amber-700 hover:bg-amber-800",
         text: "text-white",
       },
     },
     sizes: {
-      small: "rounded-[100px] font-sm",
-      medium: "rounded-[14px] font-base",
-      large: "rounded-[16px] font-base min-h-[56px]",
+      small: "rounded-[100px] text-sm py-1 px-3 h-[32px]",
+      medium: "rounded-[14px] text-base py-2 px-5 h-[40px]",
+      large: "rounded-[16px] text-lg py-3 px-6 min-h-[56px]",
     },
   };
 
   return (
-    <div
+    <button
+      type={type}
+      onClick={onClick}
       className={
-        defaultClass + " " + classes.sizes[size] + " " + classes.colors[color].button
+        defaultClass +
+        " " +
+        (classes.sizes[size] || "") +
+        " " +
+        (classes.colors[color]?.button || "") +
+        " " +
+        className
       }
+      {...rest}
     >
-      <div className={classes.colors[color].text}>{title}</div>
-    </div>
+      <span className={classes.colors[color]?.text}>
+        {title || children}
+      </span>
+    </button>
   );
 };
-
-export default Button;
