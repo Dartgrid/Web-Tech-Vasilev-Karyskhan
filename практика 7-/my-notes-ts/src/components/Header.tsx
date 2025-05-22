@@ -18,9 +18,6 @@ class Header extends PureComponent {
                                 <li>
                                     <a href="/about">О нас</a>
                                 </li>
-                                <li>
-                                    <a href="/blog">Блог</a>
-                                </li>
                             </ul>
                         </nav>
                     </div>

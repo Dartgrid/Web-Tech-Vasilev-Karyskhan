@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Button } from "../shared/Button";
 import { Input } from "../shared/Input";
-import { Textarea } from "../shared/TextArea";
+import { Textarea } from "../shared/Textarea";
 
 type Note = {
   title: string;
