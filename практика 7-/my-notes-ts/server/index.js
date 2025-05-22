@@ -1,31 +1,30 @@
 import express from "express";
 import cors from "cors";
 const app = express();
-const port = 5000;
+const PORT = 5000;
 
 app.use(cors());
-app.use(express.json());
+app.use(express.json()); // встроенный body-parser
 
-// Массив заметок в памяти
 let notes = [
   { title: "Первая заметка", description: "Описание 1", price: "5000" }
 ];
 
-// Получить все заметки
-app.get("/api/notes", (req, res) => {
+// GET — получить все заметки
+app.get('/api/notes', (req, res) => {
   res.json(notes);
 });
 
-// Добавить новую заметку
-app.post("/api/notes", (req, res) => {
-  const note = req.body;
-  if (!note.title || !note.description || !note.price) {
+// POST — добавить новую заметку
+app.post('/api/notes', (req, res) => {
+  const newNote = req.body;
+  if (!newNote.title || !newNote.description || !newNote.price) {
     return res.status(400).json({ error: "Все поля обязательны" });
   }
-  notes.push(note);
-  res.status(201).json(note);
+  notes.push(newNote);
+  res.status(201).json(newNote);
 });
 
-app.listen(port, () => {
-  console.log(`Server is running at http://localhost:${port}`);
+app.listen(PORT, () => {
+  console.log(`Сервер запущен на http://localhost:${PORT}`);
 });
