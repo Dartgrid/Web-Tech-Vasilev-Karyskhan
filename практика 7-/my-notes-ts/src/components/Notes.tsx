@@ -1,19 +1,19 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Button } from "../shared/Button";
 import { Input } from "../shared/Input";
 import { Textarea } from "../shared/TextArea";
 
 
-interface NoteCardProps {
+type Note = {
   title: string;
   description: string;
   price: string;
-}
+};
 
-const NoteCard: React.FC<NoteCardProps> = ({ title, description, price }) => (
+const NoteCard: React.FC<Note> = ({ title, description, price }) => (
   <div className="border rounded p-4 bg-white shadow mb-4">
     <h3 className="font-bold text-lg">{title}</h3>
-     <Textarea
+    <Textarea
       textareaSize="medium"
       color="gray"
       value={description}
@@ -26,17 +26,36 @@ const NoteCard: React.FC<NoteCardProps> = ({ title, description, price }) => (
 );
 
 const Notes = () => {
-  const [notes, setNotes] = useState([
-    { title: "Первая заметка", description: "Описание 1", price: "5000" },
-  ]);
+  const [notes, setNotes] = useState<Note[]>([]);
   const [modalOpen, setModalOpen] = useState(false);
-  const [form, setForm] = useState({ title: "", description: "", price: "" });
+  const [form, setForm] = useState<Note>({ title: "", description: "", price: "" });
 
-  const addNote = () => {
+  // Загрузить заметки с сервера
+  useEffect(() => {
+    fetch("http://localhost:5000/api/notes")
+      .then(res => res.json())
+      .then(setNotes)
+      .catch(console.error);
+  }, []);
+
+  // Добавить заметку на сервер
+  const addNote = async () => {
     if (!form.title || !form.description || !form.price) return;
-    setNotes([...notes, form]);
-    setForm({ title: "", description: "", price: "" });
-    setModalOpen(false);
+    try {
+      const response = await fetch("http://localhost:5000/api/notes", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(form),
+      });
+      if (response.ok) {
+        const newNote = await response.json();
+        setNotes(prev => [...prev, newNote]);
+        setForm({ title: "", description: "", price: "" });
+        setModalOpen(false);
+      }
+    } catch (err) {
+      console.error("Ошибка при добавлении заметки", err);
+    }
   };
 
   return (
